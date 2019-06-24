@@ -17,7 +17,13 @@
 
 
 - name: resolve host-b to 127.0.0.1                                                                                                                                                 
-  lineinfile:          
+  lineinfile: 
+    path: /etc/hosts
+    regexp: '^127\.0\.0\.1'
+    line: 127.0.0.1 host-b
+    owner: root
+    group: root
+    mode: '0644'
 
 - name: Restart service
   service: name=api state=restarted
