@@ -1,0 +1,14 @@
+[Unit]                                                                                                                                                                              
+Description=Api                                                                                                                                                                     
+Requires=docker.service                                                                                                                                                             
+After=docker.service                                                                                                                                                                
+                                                                                                                                                                                    
+[Service]                                                                                                                                                                           
+Restart=always                                                                                                                                                                      
+RestartSec=3                                                                                                                                                                        
+ExecStartPre=/bin/sh -c "/usr/bin/docker rm -f api 2> /dev/null || /bin/true"                                                                                                       
+ExecStart=/usr/bin/docker run --rm -a STDIN -a STDOUT -a STDERR -p 0.0.0.0:8080:80 -v /var/log/lab/api:/var/log/nginx -v /etc/lab/api/default.conf:/etc/nginx/conf.d/default.conf  --name api nginx:alpine                                                                                                                                                              
+ExecStop=/usr/bin/docker stop api                                                                                                                                                   
+                                                                                                                                                                                    
+[Install]                                                                                                                                                                           
+WantedBy=multi-user.target

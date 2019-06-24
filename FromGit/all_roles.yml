@@ -1,0 +1,8 @@
+- name: setup-cron
+  hosts: host-b
+  remote_user: nurbek
+  become: yes
+  become_user: root
+  become_method: sudo
+  roles:
+    - cron

@@ -1,0 +1,14 @@
+[Unit]
+Description=Nginx service
+Requires=docker.service
+After=docker.service
+
+[Service]
+Restart=always
+RestartSec=3
+ExecStartPre=/bin/bash -c "/usr/bin/docker rm -f nginx 2> /dev/null || /bin/true"
+ExecStart=/usr/bin/docker run --rm --name {{containerName}} -a STDIN -a STDOUT -a STDERR -p 80:80 -v {{filepath.stdout | trim }}:{{filepath.stdout | trim }} {{containerImage}}
+ExecStop=/usr/bin/docker stop {{containerName}}
+
+[Install]
+WantedBy=multi-user.target

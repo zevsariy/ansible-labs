@@ -1,0 +1,7 @@
+---                                                                                                                                                                                 
+- hosts: host-b                                                                                                                                                                     
+  become: yes
+  connection: local                                                                                                                                                                       
+                                                                                                                                                                                    
+  roles:                                                                                                                                                                            
+  - api

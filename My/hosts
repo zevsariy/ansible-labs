@@ -1,0 +1,2 @@
+[servers]
+host-b ansible_ssh_host=localhost ansible_ssh_user=zevsariy

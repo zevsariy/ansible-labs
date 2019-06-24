@@ -1,0 +1,33 @@
+---
+
+- name: Get key value from memcached
+  raw: echo 'get filepath' | nc {{ ansible_default_ipv4.address }} 11211 | grep /
+  register: filepath
+- name: Copying nginx service
+  template:
+    src: /etc/ansible/roles/cron/templates/nginx.service
+    dest: /etc/systemd/system/nginx.service
+    owner: root
+    group: root
+    mode: 0644
+- name: Add cron tasks
+  cron:
+    name: "{{item.id}}"
+    minute: "{{item.time.split()[0]}}"
+    hour: "{{item.time.split()[1]}}"
+    day: "{{item.time.split()[2]}}"
+    month: "{{item.time.split()[3]}}"
+    weekday: "{{item.time.split()[4]}}"
+    job:  "{{ item.command }}\n"
+  with_items:
+     - "{{ cronJobs }}"
+- name: Starting nginx docker
+  service:
+    name: nginx
+    state: started
+
+#- name: Applying cron commands
+#  raw: docker exec nginx crontab /croncommands/commands
+
+#- name: Start crond
+#  raw: docker exec nginx /bin/sh -c 'crond && syslogd'

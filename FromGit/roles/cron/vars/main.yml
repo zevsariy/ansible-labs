@@ -1,0 +1,11 @@
+---
+apiEndpoint: 'http://host-b:8080/api'
+containerImage: 'nginx:stable-alpine'
+containerName: 'nginx'
+cronJobs:
+  - id: jid1
+    time: '* * * * *'
+    command: 'echo "$(date) => ping" >> {{ filepath.stdout | trim }}'
+  - id: jid2
+    time: '*/5 * * * *'
+    command: echo Five Minutes; echo -n $(date) >> {{ filepath.stdout | trim }}; echo " => pong" >> {{ filepath.stdout | trim }};

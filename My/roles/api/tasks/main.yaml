@@ -1,0 +1,27 @@
+- name: copy api service file
+  copy:
+    src: api.service
+    dest: /etc/systemd/system/api.service
+    owner: root
+    group: root
+    mode: 0644
+  notify: reload systemd
+  register: service_file
+
+
+- name: Create directories
+  file: path={{item}} state=directory
+  with_items:
+  - /etc/lab/api
+  - /var/log/lab/api
+
+
+- name: resolve host-b to 127.0.0.1                                                                                                                                                 
+  lineinfile:          
+
+- name: Restart service
+  service: name=api state=restarted
+  when: service_file.changed or config_file.changed
+
+- name: Start service
+  service: name=api state=started enabled=yes                                                                                                                                                             
